@@ -1,4 +1,5 @@
-﻿using Inventory.Application.Products.DeductStock;
+﻿using BuildingBlocks.Application.Idempotency;
+using Inventory.Application.Products.DeductStock;
 using Inventory.Domain.Products;
 using MassTransit;
 using Microsoft.Extensions.Configuration;
@@ -34,6 +35,7 @@ public static class DependencyInjection
                     h.Password(configuration["RabbitMq:Password"]);
                 });
 
+                config.UseConsumeFilter(typeof(IdempotentIntegrationEventFilter<>), context);
                 //config.ConfigureEndpoints(context);
 
                 config.ReceiveEndpoint("order-placed-queue", e =>

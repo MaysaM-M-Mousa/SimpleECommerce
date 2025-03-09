@@ -8,10 +8,10 @@
 
 	<ItemGroup>
 		<PackageReference Include="MediatR" Version="12.4.1" />
-		<PackageReference Include="MassTransit.RabbitMQ" Version="8.3.7" />
 	</ItemGroup>
 
 	<ItemGroup>
+	  <ProjectReference Include="..\BuildingBlocks.Application\BuildingBlocks.Application.csproj" />
 	  <ProjectReference Include="..\Inventory.Domain\Inventory.Domain.csproj" />
 	  <ProjectReference Include="..\Order.IntegrationEvents\Order.IntegrationEvents.csproj" />
 	</ItemGroup>

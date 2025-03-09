@@ -26,7 +26,7 @@ internal class DeductStockCommandHandler : IRequestHandler<DeductStockCommand>
             .ToList();
 
         var products = await _productRepository.GetProductsByIdsAsync(productIds);
-
+        
         if (products.Count == 0)
         {
             return;
