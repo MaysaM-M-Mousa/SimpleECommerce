@@ -1,4 +1,5 @@
-﻿using Inventory.Domain.Products;
+﻿using BuildingBlocks.Infrastructure.Inbox;
+using Inventory.Domain.Products;
 using Microsoft.EntityFrameworkCore;
 
 namespace Inventory.Infrastructure.Persistence;
@@ -9,6 +10,8 @@ public class InventoryDbContext : DbContext
         : base(options) { }
 
     public DbSet<Product> Products { get; set; }
+
+    public DbSet<InboxMessage> InboxMessages { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
