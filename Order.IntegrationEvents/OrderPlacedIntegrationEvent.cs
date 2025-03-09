@@ -1,4 +1,6 @@
-﻿namespace Order.IntegrationEvents;
+﻿using BuildingBlocks.IntegrationEvent;
+
+namespace Order.IntegrationEvents;
 
 public class OrderPlacedIntegrationEvent : IntegrationEvent
 {
