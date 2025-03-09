@@ -1,5 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Order.Application.Outbox;
+﻿using BuildingBlocks.Application.Outbox;
+using Microsoft.EntityFrameworkCore;
 
 namespace Order.Persistence.Outbox;
 

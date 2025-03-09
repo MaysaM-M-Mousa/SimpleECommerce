@@ -1,7 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using BuildingBlocks.Application.Outbox;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Order.Application.Outbox;
 using Order.Domain.Orders;
 using Order.Persistence.Interceptors;
 using Order.Persistence.Orders;

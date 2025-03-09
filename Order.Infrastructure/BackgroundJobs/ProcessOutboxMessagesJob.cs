@@ -1,5 +1,5 @@
-﻿using MediatR;
-using Order.Application.Outbox;
+﻿using BuildingBlocks.Application.Outbox;
+using MediatR;
 using Quartz;
 using System.Text.Json;
 
