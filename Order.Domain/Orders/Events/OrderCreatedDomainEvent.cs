@@ -1,4 +1,4 @@
-﻿using Order.Domain.Primitives;
+﻿using BuildingBlocks.Domain;
 
 namespace Order.Domain.Orders.Events;
 

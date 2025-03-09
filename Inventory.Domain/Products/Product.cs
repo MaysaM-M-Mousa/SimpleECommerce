@@ -1,9 +1,9 @@
-﻿namespace Inventory.Domain.Products;
+﻿using BuildingBlocks.Domain;
 
-public class Product
-{
-    public int Id { get; private set; }
-    
+namespace Inventory.Domain.Products;
+
+public class Product : AggregateRoot<int>
+{    
     public string Name { get; private set; }
     
     public string Description { get; private set; }
@@ -12,9 +12,9 @@ public class Product
 
     public decimal Price { get; private set; }
 
-    private Product(int id, string name, string description, int quantity, decimal price)
+    private Product(int id, string name, string description, int quantity, decimal price) 
+        : base(id)
     {
-        Id = id;
         Name = name;
         Description = description;
         Quantity = quantity;

@@ -1,9 +1,9 @@
-﻿using Order.Domain.Orders.Events;
-using Order.Domain.Primitives;
+﻿using BuildingBlocks.Domain;
+using Order.Domain.Orders.Events;
 
 namespace Order.Domain.Orders;
 
-public class Order : AggregateRoot
+public class Order : AggregateRoot<Guid>
 {
     private List<LineItem> _lineItems = new();
 
@@ -18,8 +18,8 @@ public class Order : AggregateRoot
     public IReadOnlyList<LineItem> LineItems => _lineItems.AsReadOnly();
 
     private Order(Guid id, string? description, Guid customerId)
+        : base(id)
     {
-        Id = id;
         Description = description;
         CustomerId = customerId;
         Status = OrderStatus.Created;
