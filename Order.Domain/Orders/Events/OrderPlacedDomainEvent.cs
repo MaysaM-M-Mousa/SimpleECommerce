@@ -6,5 +6,7 @@ public record OrderPlacedDomainEvent(
     Guid OrderId,
     Guid CustomerId,
     decimal TotalAmount,
-    List<(int ProductId, int Quantity)> Items)
+    List<Item> Items)
     : DomainEvent(Guid.NewGuid(), DateTime.UtcNow);
+
+public record Item(int ProductId, int Quantity);

@@ -10,5 +10,7 @@ public class OrderPlacedIntegrationEvent : IntegrationEvent
 
     public decimal TotalAmount { get; set; }
 
-    public List<(int ProductId, int Quantity)> Items { get; set; } = new();
+    public List<Item> Items { get; set; } = new();
 }
+
+public record Item(int ProductId, int Quantity);

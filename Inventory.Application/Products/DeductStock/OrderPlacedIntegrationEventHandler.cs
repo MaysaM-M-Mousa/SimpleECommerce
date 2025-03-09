@@ -15,7 +15,11 @@ internal class OrderPlacedIntegrationEventHandler : IConsumer<OrderPlacedIntegra
 
     public async Task Consume(ConsumeContext<OrderPlacedIntegrationEvent> context)
     {
-        var itemsToDeduct = context.Message.Items;
+        var itemsToDeduct = context
+            .Message
+            .Items
+            .Select(x => (x.ProductId, x.Quantity))
+            .ToList();
 
         await _mediator.Send(new DeductStockCommand(itemsToDeduct));
     }

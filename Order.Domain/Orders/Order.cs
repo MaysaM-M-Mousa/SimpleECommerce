@@ -72,7 +72,7 @@ public class Order : AggregateRoot<Guid>
 
         Status = OrderStatus.Placed;
 
-        RaiseDomainEvent(new OrderPlacedDomainEvent(Id, CustomerId, TotalAmount, LineItems.Select(li => (li.ProductId, li.Quantity)).ToList()));
+        RaiseDomainEvent(new OrderPlacedDomainEvent(Id, CustomerId, TotalAmount, LineItems.Select(li => new Item(li.ProductId, li.Quantity)).ToList()));
     }
 
     public void Cancel(string? reason)

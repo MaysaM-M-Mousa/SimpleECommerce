@@ -25,7 +25,7 @@ internal class OrderPlacedDomainEventHandler : INotificationHandler<OrderPlacedD
             CustomerId = notification.CustomerId,
             TotalAmount = notification.TotalAmount,
             OccurredOnUtc = notification.OccurredOn,
-            Items = notification.Items,
+            Items = notification.Items.Select(x => new IntegrationEvents.Item(x.ProductId, x.Quantity)).ToList(),
         };
 
         await _publisher.Publish(integrationEvent);
