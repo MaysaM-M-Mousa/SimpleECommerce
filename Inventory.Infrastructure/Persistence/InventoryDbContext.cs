@@ -1,4 +1,4 @@
-﻿using BuildingBlocks.Infrastructure.Inbox;
+﻿using BuildingBlocks.Application.Inbox;
 using Inventory.Domain.Products;
 using Microsoft.EntityFrameworkCore;
 

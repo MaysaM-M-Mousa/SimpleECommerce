@@ -1,4 +1,5 @@
-﻿using BuildingBlocks.Infrastructure.Inbox;
+﻿using BuildingBlocks.Application.Database;
+using BuildingBlocks.Application.Inbox;
 using Inventory.Domain.Products;
 using Inventory.Infrastructure.Persistence;
 using Inventory.Infrastructure.Persistence.Repositories;
@@ -16,6 +17,7 @@ public static class DependencyInjection
     {
         services.AddScoped<IProductRepository, ProductRepository>();
         services.AddScoped<IInboxRepository, InboxRepository>();
+        services.AddScoped<IDatabaseTransaction, DatabaseTransaction>();
 
         services.AddDbContext<InventoryDbContext>(
             opts => opts.UseSqlServer(configuration.GetConnectionString("InventoryDbConnectionString"), builder =>

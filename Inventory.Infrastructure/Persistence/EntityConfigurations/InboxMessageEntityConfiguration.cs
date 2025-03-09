@@ -1,4 +1,4 @@
-﻿using BuildingBlocks.Infrastructure.Inbox;
+﻿using BuildingBlocks.Application.Inbox;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

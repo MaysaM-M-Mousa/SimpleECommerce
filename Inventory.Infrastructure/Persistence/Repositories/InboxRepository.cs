@@ -1,4 +1,4 @@
-﻿using BuildingBlocks.Infrastructure.Inbox;
+﻿using BuildingBlocks.Application.Inbox;
 using Microsoft.EntityFrameworkCore;
 
 namespace Inventory.Infrastructure.Persistence.Repositories;
