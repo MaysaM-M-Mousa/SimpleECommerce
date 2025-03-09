@@ -1,0 +1,62 @@
+services:
+  inventory.api:
+    image: ${DOCKER_REGISTRY-}inventoryapi
+    container_name: inventory.api
+    build:
+      context: .
+      dockerfile: Inventory.Api/Dockerfile
+    ports:
+      - "5000:5000"
+      - "5001:5001"
+    depends_on:
+      - sqlserver
+      - rabbitmq
+
+  order.api:
+    image: ${DOCKER_REGISTRY-}orderapi
+    container_name: order.api
+    build:
+      context: .
+      dockerfile: Order.Api/Dockerfile
+    ports:
+      - "5003:5003"
+      - "5004:5004"
+    depends_on:
+      - sqlserver
+      - rabbitmq 
+
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: sqlserver_db
+    ports:
+      - "1433:1433"
+    environment:
+      MSSQL_SA_PASSWORD: "MyStrong!Passw0rd"
+      SA_PASSWORD: "MyStrong!Passw0rd"
+      ACCEPT_EULA: "Y"
+    restart: always
+    volumes:
+      - sqlserver_data:/var/opt/mssql
+    healthcheck:
+      test: ["CMD", "sqlcmd", "-S", "localhost", "-U", "sa", "-P", "MyStrong!Passw0rd", "-Q", "SELECT 1"]
+      interval: 10s
+      retries: 5
+      start_period: 20s
+      timeout: 5s
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    restart: always
+    ports:
+      - "5672:5672"  # RabbitMQ message broker port
+      - "15672:15672"  # Management UI port
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    volumes:
+      - rabbitmq_data:/data
+
+volumes:
+  sqlserver_data:
+  rabbitmq_data:  
