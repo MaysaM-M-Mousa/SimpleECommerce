@@ -1,6 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore.Diagnostics;
+﻿using BuildingBlocks.Domain;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using Order.Application.Outbox;
-using Order.Domain.Primitives;
 using System.Text.Json;
 namespace Order.Persistence.Interceptors;
 
