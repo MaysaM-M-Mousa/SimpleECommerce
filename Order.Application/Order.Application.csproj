@@ -11,10 +11,5 @@
     <ProjectReference Include="..\Order.Domain\Order.Domain.csproj" />
     <ProjectReference Include="..\Order.IntegrationEvents\Order.IntegrationEvents.csproj" />
   </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="MassTransit.RabbitMQ" Version="8.3.7" />
-    <PackageReference Include="MediatR" Version="12.4.1" />
-  </ItemGroup>
 	
 </Project>
