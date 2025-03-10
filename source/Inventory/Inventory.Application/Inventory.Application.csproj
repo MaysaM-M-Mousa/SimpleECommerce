@@ -7,8 +7,8 @@
   </PropertyGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\BuildingBlocks.Application\BuildingBlocks.Application.csproj" />
+	  <ProjectReference Include="..\..\BuildingBlocks\BuildingBlocks.Application\BuildingBlocks.Application.csproj" />
 	  <ProjectReference Include="..\Inventory.Domain\Inventory.Domain.csproj" />
-	  <ProjectReference Include="..\Order.IntegrationEvents\Order.IntegrationEvents.csproj" />
+	  <ProjectReference Include="..\..\Order\Order.IntegrationEvents\Order.IntegrationEvents.csproj" />
 	</ItemGroup>
 </Project>

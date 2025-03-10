@@ -7,39 +7,39 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "source", "source", "{9EAB49
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Order", "Order", "{D4DF318C-247B-419D-8B04-AA43E4DE46DB}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Order.Api", "Order.Api\Order.Api.csproj", "{D1A3E2C8-1979-4A72-BDD8-C80201168617}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Order.Api", "source\Order\Order.Api\Order.Api.csproj", "{D1A3E2C8-1979-4A72-BDD8-C80201168617}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Order.Domain", "Order.Domain\Order.Domain.csproj", "{58082568-2FAE-4930-A8C7-15756B76BBC4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Order.Domain", "source\Order\Order.Domain\Order.Domain.csproj", "{58082568-2FAE-4930-A8C7-15756B76BBC4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Order.Application", "Order.Application\Order.Application.csproj", "{35E91162-AE10-4324-AA41-221B58E6A131}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Order.Application", "source\Order\Order.Application\Order.Application.csproj", "{35E91162-AE10-4324-AA41-221B58E6A131}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Order.Infrastructure", "Order.Infrastructure\Order.Infrastructure.csproj", "{0BC1EFD3-6E1E-491F-82B9-C3FD23FC60FE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Order.Infrastructure", "source\Order\Order.Infrastructure\Order.Infrastructure.csproj", "{0BC1EFD3-6E1E-491F-82B9-C3FD23FC60FE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Order.Persistence", "Order.Persistence\Order.Persistence.csproj", "{1B68AAA9-CAB6-4590-A4DD-9D1A8F034975}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Order.Persistence", "source\Order\Order.Persistence\Order.Persistence.csproj", "{1B68AAA9-CAB6-4590-A4DD-9D1A8F034975}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Order.IntegrationEvents", "Order.IntegrationEvents\Order.IntegrationEvents.csproj", "{B2F02E0F-E064-4DC8-B102-2DC50557D6F0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Order.IntegrationEvents", "source\Order\Order.IntegrationEvents\Order.IntegrationEvents.csproj", "{B2F02E0F-E064-4DC8-B102-2DC50557D6F0}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Inventory", "Inventory", "{75562C1A-DC29-4EAA-B01C-435F4D0698F5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Inventory.Api", "Inventory.Api\Inventory.Api.csproj", "{5B0C14C2-6A60-46BC-98F3-EDFEE03E24CE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Inventory.Api", "source\Inventory\Inventory.Api\Inventory.Api.csproj", "{5B0C14C2-6A60-46BC-98F3-EDFEE03E24CE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Inventory.Infrastructure", "Inventory.Infrastructure\Inventory.Infrastructure.csproj", "{3F53884A-EB88-4FDA-83B3-D09F1A0BD465}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Inventory.Infrastructure", "source\Inventory\Inventory.Infrastructure\Inventory.Infrastructure.csproj", "{3F53884A-EB88-4FDA-83B3-D09F1A0BD465}"
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{C1D2A5BB-3F0B-4A75-A78B-76B1B3151BA5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Inventory.Application", "Inventory.Application\Inventory.Application.csproj", "{AFE7D149-5D9F-44FC-B314-399A52BD976D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Inventory.Application", "source\Inventory\Inventory.Application\Inventory.Application.csproj", "{AFE7D149-5D9F-44FC-B314-399A52BD976D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Inventory.Domain", "Inventory.Domain\Inventory.Domain.csproj", "{2719C89E-CB2E-42B3-B9BC-D1E1CFC5F3BB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Inventory.Domain", "source\Inventory\Inventory.Domain\Inventory.Domain.csproj", "{2719C89E-CB2E-42B3-B9BC-D1E1CFC5F3BB}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BuildingBlocks", "BuildingBlocks", "{FF9B080A-6216-45BE-9052-EC211FC1790A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BuildingBlocks.Domain", "BuildingBlocks.Domain\BuildingBlocks.Domain.csproj", "{F5B7B1DE-B302-4065-A9F5-94A01B54FD37}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BuildingBlocks.Domain", "source\BuildingBlocks\BuildingBlocks.Domain\BuildingBlocks.Domain.csproj", "{F5B7B1DE-B302-4065-A9F5-94A01B54FD37}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BuildingBlocks.Application", "BuildingBlocks.Application\BuildingBlocks.Application.csproj", "{E0BDB41A-EE8C-45E5-BAE0-B72446C3D7A2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BuildingBlocks.Application", "source\BuildingBlocks\BuildingBlocks.Application\BuildingBlocks.Application.csproj", "{E0BDB41A-EE8C-45E5-BAE0-B72446C3D7A2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BuildingBlocks.Infrastructure", "BuildingBlocks.Infrastructure\BuildingBlocks.Infrastructure.csproj", "{733E526C-1558-4DC4-B130-F39CE7BEDE52}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BuildingBlocks.Infrastructure", "source\BuildingBlocks\BuildingBlocks.Infrastructure\BuildingBlocks.Infrastructure.csproj", "{733E526C-1558-4DC4-B130-F39CE7BEDE52}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuildingBlocks.IntegrationEvent", "BuildingBlocks.IntegrationEvent\BuildingBlocks.IntegrationEvent.csproj", "{1DC466EF-DBA1-4D33-9F0D-08F31C71EB9B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuildingBlocks.IntegrationEvent", "source\BuildingBlocks\BuildingBlocks.IntegrationEvent\BuildingBlocks.IntegrationEvent.csproj", "{1DC466EF-DBA1-4D33-9F0D-08F31C71EB9B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

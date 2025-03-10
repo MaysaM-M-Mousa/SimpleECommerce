@@ -4,7 +4,7 @@ services:
     container_name: inventory.api
     build:
       context: .
-      dockerfile: Inventory.Api/Dockerfile
+      dockerfile: source/Inventory/Inventory.Api/Dockerfile
     ports:
       - "5000:5000"
       - "5001:5001"
@@ -17,7 +17,7 @@ services:
     container_name: order.api
     build:
       context: .
-      dockerfile: Order.Api/Dockerfile
+      dockerfile: source/Order/Order.Api/Dockerfile
     ports:
       - "5003:5003"
       - "5004:5004"
