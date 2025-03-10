@@ -27,9 +27,7 @@ public class IdempotentIntegrationEventFilter<T> : IFilter<ConsumeContext<T>> wh
         // TODO: extract consumer type here and pass it
         string handlerType = "UnknownHandler";
 
-        var isProcessed = await _inboxRepository.IsProcessedAsync(context.Message.MessageId, handlerType);
-
-        if (isProcessed)
+        if (await _inboxRepository.IsProcessedAsync(context.Message.MessageId, handlerType))
         {
             return;
         }
