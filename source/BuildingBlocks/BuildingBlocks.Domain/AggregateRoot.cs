@@ -1,7 +1,5 @@
 ﻿namespace BuildingBlocks.Domain;
 
-
-
 public abstract class AggregateRoot
 {
     private List<IDomainEvent> _domainEvents = new();
