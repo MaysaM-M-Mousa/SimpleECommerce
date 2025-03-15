@@ -7,7 +7,7 @@ namespace Order.Domain.Tests.Orders;
 public class CreateTests
 {
     [Fact]
-    public void CreateNewOrder_Succeeds()
+    public void Create_ShouldInitializeOrderWithCorrectValues()
     {
         // Arrange
         string description = "Order 1 - description";
@@ -22,8 +22,7 @@ public class CreateTests
             order.Should().NotBeNull();
             order.CustomerId.Should().Be(customerId);
             order.Description.Should().Be(description);
-            order.GetDomainEvents().Count.Should().Be(1);
-            order.GetDomainEvents().First().Should().BeOfType<OrderCreatedDomainEvent>();
+            order.GetDomainEvents().Should().ContainSingle(e => e is OrderCreatedDomainEvent);
         }
     }
 }
