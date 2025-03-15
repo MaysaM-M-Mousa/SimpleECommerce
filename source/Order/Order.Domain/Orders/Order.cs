@@ -41,6 +41,11 @@ public class Order : AggregateRoot<Guid>
             throw new InvalidOperationException("Can't add items to cancelled order!");
         }
 
+        if (Status == OrderStatus.Placed)
+        {
+            throw new InvalidOperationException("Can't add items to placed order!");
+        }
+
         var lineItem = _lineItems.FirstOrDefault(li => li.ProductId == productId);
 
         if (lineItem is not null)
