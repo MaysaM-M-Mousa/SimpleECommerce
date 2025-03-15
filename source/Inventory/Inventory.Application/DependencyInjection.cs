@@ -14,6 +14,7 @@ public static class DependencyInjection
         IConfiguration configuration)
     {
         services.AddTransient<IDeductProductsDomainService, DeductProductsDomainService>();
+        services.AddTransient<IReleaseProductsDomainService, ReleaseProductsDomainService>();
 
         services.AddMediatR(config =>
         {
