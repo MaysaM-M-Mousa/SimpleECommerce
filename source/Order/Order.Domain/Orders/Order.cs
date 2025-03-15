@@ -38,7 +38,7 @@ public class Order : AggregateRoot<Guid>
     {
         if (Status == OrderStatus.Cancel)
         {
-            throw new InvalidOperationException("Can't place a cancelled order!");
+            throw new InvalidOperationException("Can't add items to cancelled order!");
         }
 
         var lineItem = _lineItems.FirstOrDefault(li => li.ProductId == productId);
@@ -91,7 +91,7 @@ public class Order : AggregateRoot<Guid>
 
         Status = OrderStatus.Cancel;
 
-        RaiseDomainEvent(new OrderCancelledDomainEvent(Id, reason, isPlaced));
+        RaiseDomainEvent(new OrderCancelledDomainEvent(Id, reason, isPlaced, LineItems.Select(li => new Item(li.ProductId, li.Quantity)).ToList()));
     }
 
     private void RecalculateTotalAmount()
