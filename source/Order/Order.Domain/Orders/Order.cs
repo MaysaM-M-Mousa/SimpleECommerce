@@ -36,6 +36,11 @@ public class Order : AggregateRoot<Guid>
 
     public void AddLineItem(int productId, int quantity, decimal price)
     {
+        if (Status == OrderStatus.Cancel)
+        {
+            throw new InvalidOperationException("Can't place a cancelled order!");
+        }
+
         var lineItem = _lineItems.FirstOrDefault(li => li.ProductId == productId);
 
         if (lineItem is not null)
