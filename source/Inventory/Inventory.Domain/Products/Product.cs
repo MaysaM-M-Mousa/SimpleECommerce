@@ -31,6 +31,11 @@ public class Product : AggregateRoot<int>
         // RaiseDomainEvent()
     }
 
+    public void Release(int quantity)
+    {
+        Quantity += quantity;
+    }
+
     public static Product Create(int id, string name, string description, int quantity, decimal price)
     {
         var product = new Product(id, name, description, quantity, price);
