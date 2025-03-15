@@ -1,5 +1,6 @@
 ﻿using BuildingBlocks.Application.Idempotency;
 using Inventory.Application.Products.DeductStock;
+using Inventory.Application.Products.ReleaseStock;
 using Inventory.Domain.Products;
 using MassTransit;
 using Microsoft.Extensions.Configuration;
@@ -42,6 +43,11 @@ public static class DependencyInjection
                 config.ReceiveEndpoint("order-placed-queue", e =>
                 {
                     e.ConfigureConsumer<OrderPlacedIntegrationEventHandler>(context);
+                });
+
+                config.ReceiveEndpoint("order-cancelled-queue", e =>
+                {
+                    e.ConfigureConsumer<OrderCancelledIntegrationEventHandler>(context);
                 });
             });
         });
