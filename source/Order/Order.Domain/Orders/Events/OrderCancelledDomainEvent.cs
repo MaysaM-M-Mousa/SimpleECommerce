@@ -2,7 +2,7 @@
 
 namespace Order.Domain.Orders.Events;
 
-internal record OrderCancelledDomainEvent(
+public record OrderCancelledDomainEvent(
     Guid OrderId, 
     string? Reason,
     bool IsPlaced,
