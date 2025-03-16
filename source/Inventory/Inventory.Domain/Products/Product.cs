@@ -1,4 +1,5 @@
 ﻿using BuildingBlocks.Domain;
+using Inventory.Domain.Products.DomainEvents;
 
 namespace Inventory.Domain.Products;
 
@@ -28,17 +29,21 @@ public class Product : AggregateRoot<int>
     {
         Quantity-= quantity;
 
-        // RaiseDomainEvent()
+        RaiseDomainEvent(new StockDeductedDomainEvent(Id, quantity));
     }
 
     public void Release(int quantity)
     {
         Quantity += quantity;
+
+        RaiseDomainEvent(new StockReleasedDomainEvent(Id, quantity));
     }
 
     public static Product Create(int id, string name, string description, int quantity, decimal price)
     {
         var product = new Product(id, name, description, quantity, price);
+
+        product.RaiseDomainEvent(new ProductCreatedDomainEvent(id, name, description, quantity, price));
 
         return product;
     }
