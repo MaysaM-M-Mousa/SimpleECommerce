@@ -22,17 +22,27 @@ public class Product : AggregateRoot<int>
         Price = price;
     }
 
-    public bool CanDeduct(int quantity) 
+    internal bool CanDeduct(int quantity) 
         => Quantity >= quantity;
 
-    public void Deduct(int quantity)
+    internal void Deduct(int quantity)
     {
+        if (quantity < 0)
+        {
+            throw new Exception("Quantity must be positive!");
+        }
+
+        if (!CanDeduct(quantity))
+        {
+            throw new Exception("No enough stocks to deduct!");
+        }
+
         Quantity-= quantity;
 
         RaiseDomainEvent(new StockDeductedDomainEvent(Id, quantity));
     }
 
-    public void Release(int quantity)
+    internal void Release(int quantity)
     {
         Quantity += quantity;
 
