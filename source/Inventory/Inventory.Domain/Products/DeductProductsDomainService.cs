@@ -13,17 +13,14 @@ public class DeductProductsDomainService : IDeductProductsDomainService
 
         foreach (var (productId, quantityToDeduct) in itemsToDeduct)
         {
-            if (!productsById.TryGetValue(productId, out var existingProduct) ||
-                !existingProduct.CanDeduct(quantityToDeduct))
+            if (!productsById.TryGetValue(productId, out var existingProduct))
             {
                 // Do nothing, return and don't proceed with this order placement
-                throw new Exception("Some products are out of stock!");
+                throw new Exception("Could not find product!");
             }
 
             existingProduct.Deduct(quantityToDeduct);
         }
-
-        // append domain event as outbox msg here so it's wrapped in the same transaction
 
     }
 }
