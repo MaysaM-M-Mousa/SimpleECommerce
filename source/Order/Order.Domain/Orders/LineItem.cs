@@ -28,6 +28,10 @@ public class LineItem
 
     public void IncreaseStockQuantity(int additionalQuantity)
     {
+        if (additionalQuantity <= 0) 
+        {
+            throw new ArgumentException("Quantity must be positive!");
+        }
         Quantity += additionalQuantity;
     }
 
