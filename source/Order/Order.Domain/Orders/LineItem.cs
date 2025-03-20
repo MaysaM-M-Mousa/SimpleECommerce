@@ -12,7 +12,7 @@ public class LineItem
 
     public Guid OrderId { get; private set; }
 
-    internal LineItem(Guid id, int productId, decimal price, int quantity, Guid orderId)
+    private LineItem(Guid id, int productId, decimal price, int quantity, Guid orderId)
     {
         Id = id;
         ProductId = productId;
@@ -21,12 +21,19 @@ public class LineItem
         OrderId = orderId;
     }
 
+    internal static LineItem Create(Guid id, int productId, decimal price, int quantity, Guid orderId)
+    {
+        var lineItem = new LineItem(id, productId, price, quantity, orderId);
+
+        return lineItem;
+    }
+
     private LineItem()
     {
         // Only EF Core
     }
 
-    public void IncreaseStockQuantity(int additionalQuantity)
+    public void IncreaseQuantity(int additionalQuantity)
     {
         if (additionalQuantity <= 0) 
         {

@@ -50,12 +50,11 @@ public class Order : AggregateRoot<Guid>
 
         if (lineItem is not null)
         {
-            lineItem.IncreaseStockQuantity(quantity);
+            lineItem.IncreaseQuantity(quantity);
         }
         else
         {
-            _lineItems.Add(new LineItem(
-                //id: Guid.NewGuid(),
+            _lineItems.Add(LineItem.Create(
                 id: Guid.Empty,
                 productId: productId,
                 quantity: quantity,
