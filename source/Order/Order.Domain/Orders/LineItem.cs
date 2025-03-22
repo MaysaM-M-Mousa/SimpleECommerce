@@ -39,6 +39,7 @@ public class LineItem
         {
             throw new ArgumentException("Quantity must be positive!");
         }
+
         Quantity += additionalQuantity;
     }
 

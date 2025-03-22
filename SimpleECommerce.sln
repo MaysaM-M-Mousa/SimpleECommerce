@@ -43,7 +43,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BuildingBlocks.IntegrationE
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{252D9E3D-EE51-4F6B-AA9F-9EBABB74C71D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Order.Domain.Tests", "source\Order\Tests\Order.Domain.Tests\Order.Domain.Tests.csproj", "{D0692F39-C2CB-498D-A8FF-E27B401B51E6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Order.Domain.Tests", "source\Order\Tests\Order.Domain.Tests\Order.Domain.Tests.csproj", "{D0692F39-C2CB-498D-A8FF-E27B401B51E6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
