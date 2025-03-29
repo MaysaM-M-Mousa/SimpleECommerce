@@ -27,7 +27,7 @@ public class Product : AggregateRoot<int>
 
     internal void Deduct(int quantity)
     {
-        if (quantity < 0)
+        if (quantity <= 0)
         {
             throw new Exception("Quantity must be positive!");
         }
