@@ -44,9 +44,9 @@ public class Product : AggregateRoot<int>
 
     internal void Release(int quantity)
     {
-        if (quantity < 0)
+        if (quantity <= 0)
         {
-            throw new Exception("quantity must not be negative!");
+            throw new Exception("Quantity must not be positive!");
         }
 
         Quantity += quantity;
