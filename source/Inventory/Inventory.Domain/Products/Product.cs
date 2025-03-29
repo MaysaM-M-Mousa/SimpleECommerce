@@ -22,7 +22,7 @@ public class Product : AggregateRoot<int>
         Price = price;
     }
 
-    internal bool CanDeduct(int quantity) 
+    private bool CanDeduct(int quantity) 
         => Quantity >= quantity;
 
     internal void Deduct(int quantity)
@@ -44,6 +44,11 @@ public class Product : AggregateRoot<int>
 
     internal void Release(int quantity)
     {
+        if (quantity < 0)
+        {
+            throw new Exception("quantity must not be negative!");
+        }
+
         Quantity += quantity;
 
         RaiseDomainEvent(new StockReleasedDomainEvent(Id, quantity));
