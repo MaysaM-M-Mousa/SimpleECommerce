@@ -16,13 +16,6 @@ internal class ProductRepository : IProductRepository
     {
         return await _dbContext.Products.ToListAsync();
     }
-    public async Task<List<Product>> GetProductsByIdsAsync(List<int> productIds)
-    {
-        return await _dbContext
-            .Products
-            .Where(p => productIds.Contains(p.Id))
-            .ToListAsync();
-    }
 
     public async Task<Product?> GetByIdAsync(int id)
     {
