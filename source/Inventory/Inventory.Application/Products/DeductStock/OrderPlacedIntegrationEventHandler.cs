@@ -21,6 +21,6 @@ internal class OrderPlacedIntegrationEventHandler : IConsumer<OrderPlacedIntegra
             .Select(x => (x.ProductId, x.Quantity))
             .ToList();
 
-        await _mediator.Send(new DeductStockCommand(itemsToDeduct));
+        //await _mediator.Send(new DeductStockCommand(itemsToDeduct));
     }
 }

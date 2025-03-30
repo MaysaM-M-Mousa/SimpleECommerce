@@ -2,4 +2,4 @@
 
 namespace Inventory.Application.Products.DeductStock;
 
-public record DeductStockCommand(List<(int ProductId, int Quantity)> ItemsToDeduct) : IRequest;
+public record DeductStockCommand(int ProductId, int Quantity) : IRequest;

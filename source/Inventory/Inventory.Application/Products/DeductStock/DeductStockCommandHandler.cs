@@ -6,33 +6,24 @@ namespace Inventory.Application.Products.DeductStock;
 internal class DeductStockCommandHandler : IRequestHandler<DeductStockCommand>
 {
     private readonly IProductRepository _productRepository;
-    private readonly IDeductProductsDomainService _deductProductsDomainService;
 
-    public DeductStockCommandHandler(
-        IProductRepository productRepository, 
-        IDeductProductsDomainService deductProductsDomainService)
+    public DeductStockCommandHandler(IProductRepository productRepository) 
     {
         _productRepository = productRepository;
-        _deductProductsDomainService = deductProductsDomainService;
     }
 
     public async Task Handle(
         DeductStockCommand command,
         CancellationToken cancellationToken)
     {
-        var productIds = command
-            .ItemsToDeduct
-            .Select(x => x.ProductId)
-            .ToList();
-
-        var products = await _productRepository.GetProductsByIdsAsync(productIds);
+        var product = await _productRepository.GetByIdAsync(command.ProductId);
         
-        if (products.Count == 0)
+        if (product is null)
         {
-            return;
+            throw new Exception("Product not found!");
         }
 
-        _deductProductsDomainService.DeductStocks(command.ItemsToDeduct, products);
+        product.Deduct(command.Quantity);
 
         await _productRepository.SaveChangesAsync();
     }
