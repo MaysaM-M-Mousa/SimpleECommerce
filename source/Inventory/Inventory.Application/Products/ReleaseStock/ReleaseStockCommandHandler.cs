@@ -6,28 +6,23 @@ namespace Inventory.Application.Products.ReleaseStock;
 internal class ReleaseStockCommandHandler : IRequestHandler<ReleaseStockCommand>
 {
     private readonly IProductRepository _productRepository;
-    private readonly IReleaseProductsDomainService _releaseProductsDomainService;
-
-    public ReleaseStockCommandHandler(
-        IProductRepository productRepository,
-        IReleaseProductsDomainService releaseProductsDomainService)
+    public ReleaseStockCommandHandler(IProductRepository productRepository)
     {
         _productRepository = productRepository;
-        _releaseProductsDomainService = releaseProductsDomainService;
     }
 
     public async Task Handle(
         ReleaseStockCommand command, 
         CancellationToken cancellationToken)
     {
-        var productIds = command
-            .ItemsToRelease
-            .Select(x => x.ProductId)
-            .ToList();
+        var product = await _productRepository.GetByIdAsync(command.ProductId);
 
-        var products = await _productRepository.GetProductsByIdsAsync(productIds);
+        if (product is null)
+        {
+            throw new Exception("Product not found!");
+        }
 
-        _releaseProductsDomainService.ReleaseStocks(command.ItemsToRelease, products);
+        product.Release(command.Quantity);
 
         await _productRepository.SaveChangesAsync();
     }
