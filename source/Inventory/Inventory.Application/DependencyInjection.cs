@@ -1,7 +1,6 @@
 ﻿using BuildingBlocks.Application.Idempotency;
 using Inventory.Application.Products.DeductStock;
 using Inventory.Application.Products.ReleaseStock;
-using Inventory.Domain.Products;
 using MassTransit;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,9 +13,6 @@ public static class DependencyInjection
         this IServiceCollection services,
         IConfiguration configuration)
     {
-        services.AddTransient<IDeductProductsDomainService, DeductProductsDomainService>();
-        services.AddTransient<IReleaseProductsDomainService, ReleaseProductsDomainService>();
-
         services.AddMediatR(config =>
         {
             var assembly = typeof(DependencyInjection).Assembly;
