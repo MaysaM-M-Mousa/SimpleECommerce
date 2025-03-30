@@ -25,7 +25,7 @@ public class Product : AggregateRoot<int>
     private bool CanDeduct(int quantity) 
         => Quantity >= quantity;
 
-    internal void Deduct(int quantity)
+    public void Deduct(int quantity)
     {
         if (quantity <= 0)
         {
@@ -42,7 +42,7 @@ public class Product : AggregateRoot<int>
         RaiseDomainEvent(new StockDeductedDomainEvent(Id, quantity));
     }
 
-    internal void Release(int quantity)
+    public void Release(int quantity)
     {
         if (quantity <= 0)
         {
