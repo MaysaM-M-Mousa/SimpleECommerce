@@ -9,23 +9,71 @@ public class Product : AggregateRoot<int>
     
     public string Description { get; private set; }
 
-    public int Quantity { get; private set; }
+    public int StockQuantity { get; private set; }
 
     public decimal Price { get; private set; }
+
+    private Dictionary<Guid, Reservation> _reservations = new();
+
+    public IReadOnlyList<Reservation> Reservations =>
+        _reservations
+        .Values
+        .ToList()
+        .AsReadOnly();
 
     private Product(int id, string name, string description, int quantity, decimal price) 
         : base(id)
     {
         Name = name;
         Description = description;
-        Quantity = quantity;
+        StockQuantity = quantity;
         Price = price;
     }
 
     private bool CanDeduct(int quantity) 
-        => Quantity >= quantity;
+        => StockQuantity >= quantity;
 
-    public void Deduct(int quantity)
+    public int ReservedQuantity =>
+        _reservations.Sum(x => x.Value.Quantity);
+
+    public int AvailableQuantity =>
+        StockQuantity - ReservedQuantity;
+
+    public void Reserve(Guid orderId, int quantity)
+    {
+        if (quantity > AvailableQuantity)
+        {
+            throw new Exception("No enough available stocks to reserve!");
+        }
+
+        if (_reservations.ContainsKey(orderId))
+        {
+            throw new Exception("Order already has a reservation");
+        }
+
+        _reservations.Add(orderId, Reservation.Create(Id, orderId, quantity));
+
+        RaiseDomainEvent(new StockReservedDomainEvent(Id, quantity));
+    }
+
+    public void Release(Guid orderId, int quantity)
+    {
+        if (quantity <= 0)
+        {
+            throw new Exception("Quantity must not be positive!");
+        }
+
+        if (!_reservations.ContainsKey(orderId))
+        {
+            throw new Exception("Order has no reservation");
+        }
+
+        _reservations.Remove(orderId);
+
+        RaiseDomainEvent(new StockReleasedDomainEvent(Id, quantity));
+    }
+
+    public void Deduct(Guid orderId, int quantity)
     {
         if (quantity <= 0)
         {
@@ -37,21 +85,10 @@ public class Product : AggregateRoot<int>
             throw new Exception("No enough stocks to deduct!");
         }
 
-        Quantity-= quantity;
+        StockQuantity -= quantity;
+        _reservations.Remove(orderId);
 
         RaiseDomainEvent(new StockDeductedDomainEvent(Id, quantity));
-    }
-
-    public void Release(int quantity)
-    {
-        if (quantity <= 0)
-        {
-            throw new Exception("Quantity must not be positive!");
-        }
-
-        Quantity += quantity;
-
-        RaiseDomainEvent(new StockReleasedDomainEvent(Id, quantity));
     }
 
     public static Product Create(int id, string name, string description, int quantity, decimal price)
