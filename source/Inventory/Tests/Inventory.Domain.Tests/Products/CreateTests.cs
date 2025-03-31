@@ -26,7 +26,7 @@ public class CreateTests
             product.Should().NotBeNull();
             product.Id.Should().Be(id);
             product.Name.Should().Be(name);
-            product.Quantity.Should().Be(quantity);
+            product.StockQuantity.Should().Be(quantity);
             product.Description.Should().Be(description);
             product.Price.Should().Be(price);
             product.GetDomainEvents().Should().ContainSingle(e => e is ProductCreatedDomainEvent);
