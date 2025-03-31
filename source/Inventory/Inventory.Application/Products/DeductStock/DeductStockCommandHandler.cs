@@ -23,7 +23,7 @@ internal class DeductStockCommandHandler : IRequestHandler<DeductStockCommand>
             throw new Exception("Product not found!");
         }
 
-        product.Deduct(command.Quantity);
+        product.Deduct(command.OrderId, command.Quantity);
 
         await _productRepository.SaveChangesAsync();
     }

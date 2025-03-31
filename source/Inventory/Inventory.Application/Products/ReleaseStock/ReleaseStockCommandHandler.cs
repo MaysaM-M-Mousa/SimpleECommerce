@@ -6,6 +6,7 @@ namespace Inventory.Application.Products.ReleaseStock;
 internal class ReleaseStockCommandHandler : IRequestHandler<ReleaseStockCommand>
 {
     private readonly IProductRepository _productRepository;
+
     public ReleaseStockCommandHandler(IProductRepository productRepository)
     {
         _productRepository = productRepository;
@@ -22,7 +23,7 @@ internal class ReleaseStockCommandHandler : IRequestHandler<ReleaseStockCommand>
             throw new Exception("Product not found!");
         }
 
-        product.Release(command.Quantity);
+        product.Release(command.OrderId, command.Quantity);
 
         await _productRepository.SaveChangesAsync();
     }
