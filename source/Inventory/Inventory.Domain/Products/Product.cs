@@ -21,6 +21,11 @@ public class Product : AggregateRoot<int>
         .ToList()
         .AsReadOnly();
 
+    private Product()
+    {
+        // EF COre Only
+    }
+
     private Product(int id, string name, string description, int quantity, decimal price) 
         : base(id)
     {

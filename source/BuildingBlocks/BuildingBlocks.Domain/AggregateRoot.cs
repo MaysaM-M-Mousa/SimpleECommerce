@@ -22,4 +22,9 @@ public abstract class AggregateRoot<T> : AggregateRoot
     {
         Id = id;
     }
+
+    protected AggregateRoot()
+    {
+
+    }
 }
