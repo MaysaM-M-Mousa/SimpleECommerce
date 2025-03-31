@@ -6,7 +6,7 @@ public static class ProductsMappingExtensions
 {
     public static ProductDto ToDto(this Product product)
     {
-        return new ProductDto(product.Id, product.Name, product.Description, product.StockQuantity);
+        return new ProductDto(product.Id, product.Name, product.Description, product.AvailableQuantity);
     }
 
     public static List<ProductDto> ToDto(this List<Product> products)
