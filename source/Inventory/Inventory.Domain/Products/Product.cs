@@ -48,7 +48,7 @@ public class Product : AggregateRoot<int>
 
         if (_reservations.ContainsKey(orderId))
         {
-            throw new Exception("Order already has a reservation");
+            throw new Exception("Order already has a reservation!");
         }
 
         _reservations.Add(orderId, Reservation.Create(Id, orderId, quantity));
@@ -63,9 +63,14 @@ public class Product : AggregateRoot<int>
             throw new Exception("Quantity must not be positive!");
         }
 
-        if (!_reservations.ContainsKey(orderId))
+        if (!_reservations.TryGetValue(orderId, out var orderReservation))
         {
-            throw new Exception("Order has no reservation");
+            throw new Exception("Order has no reservation!");
+        }
+
+        if (quantity != orderReservation.Quantity)
+        {
+            throw new Exception("Released quantity does not match order reservation's quantity!");
         }
 
         _reservations.Remove(orderId);
@@ -83,6 +88,16 @@ public class Product : AggregateRoot<int>
         if (!CanDeduct(quantity))
         {
             throw new Exception("No enough stocks to deduct!");
+        }
+
+        if (!_reservations.TryGetValue(orderId, out var orderReservation))
+        {
+            throw new Exception("Order has no reservation!");
+        }
+
+        if (quantity != orderReservation.Quantity)
+        {
+            throw new Exception("Deduction quantity must match order's reserved quantity!");
         }
 
         StockQuantity -= quantity;

@@ -22,6 +22,6 @@ public class Reservation
         Quantity = quantity;
     }
 
-    public static Reservation Create(int productId, Guid orderId, int quantity)
+    internal static Reservation Create(int productId, Guid orderId, int quantity)
         => new Reservation(productId, orderId, quantity);
 }
