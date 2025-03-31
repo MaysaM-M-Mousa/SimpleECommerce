@@ -58,7 +58,7 @@ public class Product : AggregateRoot<int>
 
         _reservations.Add(orderId, Reservation.Create(Id, orderId, quantity));
 
-        RaiseDomainEvent(new StockReservedDomainEvent(Id, quantity));
+        RaiseDomainEvent(new StockReservedDomainEvent(Id, quantity, orderId));
     }
 
     public void Release(Guid orderId, int quantity)
@@ -80,7 +80,7 @@ public class Product : AggregateRoot<int>
 
         _reservations.Remove(orderId);
 
-        RaiseDomainEvent(new StockReleasedDomainEvent(Id, quantity));
+        RaiseDomainEvent(new StockReleasedDomainEvent(Id, quantity, orderId));
     }
 
     public void Deduct(Guid orderId, int quantity)
@@ -108,7 +108,7 @@ public class Product : AggregateRoot<int>
         StockQuantity -= quantity;
         _reservations.Remove(orderId);
 
-        RaiseDomainEvent(new StockDeductedDomainEvent(Id, quantity));
+        RaiseDomainEvent(new StockDeductedDomainEvent(Id, quantity, orderId));
     }
 
     public static Product Create(int id, string name, string description, int quantity, decimal price)
