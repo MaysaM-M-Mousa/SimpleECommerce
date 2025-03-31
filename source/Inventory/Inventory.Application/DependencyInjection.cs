@@ -22,6 +22,7 @@ public static class DependencyInjection
         services.AddMassTransit(x =>
         {
             x.AddConsumer<OrderPlacedIntegrationEventHandler>();
+            x.AddConsumer<OrderCancelledIntegrationEventHandler>();
 
             x.SetKebabCaseEndpointNameFormatter();
 
