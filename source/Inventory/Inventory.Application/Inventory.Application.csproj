@@ -10,5 +10,6 @@
 	  <ProjectReference Include="..\..\BuildingBlocks\BuildingBlocks.Application\BuildingBlocks.Application.csproj" />
 	  <ProjectReference Include="..\Inventory.Domain\Inventory.Domain.csproj" />
 	  <ProjectReference Include="..\..\Order\Order.IntegrationEvents\Order.IntegrationEvents.csproj" />
+	  <ProjectReference Include="..\Inventory.IntegrationEvents\Inventory.IntegrationEvents.csproj" />
 	</ItemGroup>
 </Project>
