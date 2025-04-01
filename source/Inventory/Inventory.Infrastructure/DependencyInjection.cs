@@ -1,11 +1,13 @@
 ﻿using BuildingBlocks.Application.Database;
 using BuildingBlocks.Application.Inbox;
 using Inventory.Domain.Products;
+using Inventory.Infrastructure.BackgroundJobs;
 using Inventory.Infrastructure.Persistence;
 using Inventory.Infrastructure.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Quartz;
 
 namespace Inventory.Infrastructure;
 
@@ -24,6 +26,18 @@ public static class DependencyInjection
             {
                 builder.EnableRetryOnFailure(5, TimeSpan.FromSeconds(5), null);
             }));
+
+        services.AddQuartz(config =>
+        {
+            var jobKey = new JobKey(nameof(ProcessOutboxMessagesJob));
+
+            config
+            .AddJob<ProcessOutboxMessagesJob>(jobKey)
+            .AddTrigger(t => t.ForJob(jobKey).WithSimpleSchedule(s => s.WithIntervalInSeconds(10).RepeatForever()));
+
+        });
+
+        services.AddQuartzHostedService();
 
         return services;
     }
