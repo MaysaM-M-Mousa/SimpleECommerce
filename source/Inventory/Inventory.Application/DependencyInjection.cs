@@ -1,6 +1,4 @@
 ﻿using BuildingBlocks.Application.Idempotency;
-using Inventory.Application.Products.DeductStock;
-using Inventory.Application.Products.ReleaseStock;
 using MassTransit;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -21,9 +19,6 @@ public static class DependencyInjection
 
         services.AddMassTransit(x =>
         {
-            x.AddConsumer<OrderPlacedIntegrationEventHandler>();
-            x.AddConsumer<OrderCancelledIntegrationEventHandler>();
-
             x.SetKebabCaseEndpointNameFormatter();
 
             x.UsingRabbitMq((context, config) =>
@@ -36,16 +31,6 @@ public static class DependencyInjection
 
                 config.UseConsumeFilter(typeof(IdempotentIntegrationEventFilter<>), context);
                 //config.ConfigureEndpoints(context);
-
-                config.ReceiveEndpoint("order-placed-queue", e =>
-                {
-                    e.ConfigureConsumer<OrderPlacedIntegrationEventHandler>(context);
-                });
-
-                config.ReceiveEndpoint("order-cancelled-queue", e =>
-                {
-                    e.ConfigureConsumer<OrderCancelledIntegrationEventHandler>(context);
-                });
             });
         });
 
