@@ -1,6 +1,9 @@
 ﻿using BuildingBlocks.Application.Database;
 using BuildingBlocks.Application.Inbox;
 using BuildingBlocks.Application.Outbox;
+using Inventory.Application.Products.ReleaseStock;
+using Inventory.Application.Products.ReserveStock;
+using Inventory.Application.Products.ReserveStock.Saga;
 using Inventory.Domain.Products;
 using Inventory.Infrastructure.BackgroundJobs;
 using Inventory.Infrastructure.Persistence;
@@ -66,6 +69,12 @@ public static class DependencyInjection
         {
             x.SetKebabCaseEndpointNameFormatter();
 
+            x.AddConsumer<ReserveStockConsumer>();
+            x.AddConsumer<ReleaseStockConsumer>();
+
+            x.AddSagaStateMachine<ReserveStocksSaga, ReserveStocksStateMachineSaga>()
+            .InMemoryRepository();
+
             x.UsingRabbitMq((context, config) =>
             {
                 config.Host(configuration["RabbitMq:ConnectionString"], h =>
@@ -76,6 +85,22 @@ public static class DependencyInjection
 
                 //config.UseConsumeFilter(typeof(IdempotentIntegrationEventFilter<>), context);
                 //config.ConfigureEndpoints(context);
+
+                config.ReceiveEndpoint("reserve-stocks-saga-queue", e =>
+                {
+                    e.Durable = true;
+                    e.StateMachineSaga(new ReserveStocksSaga(), new InMemorySagaRepository<ReserveStocksStateMachineSaga>());
+                });
+
+                config.ReceiveEndpoint("reserve-stock-queue", e =>
+                {
+                    e.ConfigureConsumer<ReserveStockConsumer>(context);
+                });
+
+                config.ReceiveEndpoint("release-stock-queue", e =>
+                {
+                    e.ConfigureConsumer<ReleaseStockConsumer>(context);
+                });
             });
         });
 
