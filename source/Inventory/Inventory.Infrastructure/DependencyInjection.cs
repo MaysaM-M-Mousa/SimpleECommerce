@@ -6,6 +6,7 @@ using Inventory.Infrastructure.BackgroundJobs;
 using Inventory.Infrastructure.Persistence;
 using Inventory.Infrastructure.Persistence.Interceptors;
 using Inventory.Infrastructure.Persistence.Repositories;
+using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -35,6 +36,7 @@ public static class DependencyInjection
         });
 
         services.AddQuartz();
+        services.AddMassTransitConfigs(configuration);
 
         return services;
     }
@@ -52,6 +54,30 @@ public static class DependencyInjection
         });
 
         services.AddQuartzHostedService();
+
+        return services;
+    }
+
+    private static IServiceCollection AddMassTransitConfigs(
+        this IServiceCollection services,
+        IConfiguration configuration)
+    {
+        services.AddMassTransit(x =>
+        {
+            x.SetKebabCaseEndpointNameFormatter();
+
+            x.UsingRabbitMq((context, config) =>
+            {
+                config.Host(configuration["RabbitMq:ConnectionString"], h =>
+                {
+                    h.Username(configuration["RabbitMq:Username"]);
+                    h.Password(configuration["RabbitMq:Password"]);
+                });
+
+                //config.UseConsumeFilter(typeof(IdempotentIntegrationEventFilter<>), context);
+                //config.ConfigureEndpoints(context);
+            });
+        });
 
         return services;
     }
