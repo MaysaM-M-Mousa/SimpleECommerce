@@ -4,7 +4,7 @@ using Order.IntegrationEvents;
 
 namespace Inventory.Application.Products.ReserveStock.Saga;
 
-public class ReserveStocksSaga : MassTransitStateMachine<ReserveStocksStateMachineSaga>
+public class ReserveStocksSaga : MassTransitStateMachine<ReserveStocksSagaState>
 {
     // States
     public State Reservation { get; private set; }

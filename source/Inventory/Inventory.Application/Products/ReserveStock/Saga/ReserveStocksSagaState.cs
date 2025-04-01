@@ -2,7 +2,7 @@
 
 namespace Inventory.Application.Products.ReserveStock.Saga;
 
-public class ReserveStocksStateMachineSaga : SagaStateMachineInstance
+public class ReserveStocksSagaState : SagaStateMachineInstance
 {
     public Guid CorrelationId { get; set; }
 

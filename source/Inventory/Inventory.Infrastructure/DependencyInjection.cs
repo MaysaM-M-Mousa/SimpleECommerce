@@ -72,7 +72,7 @@ public static class DependencyInjection
             x.AddConsumer<ReserveStockConsumer>();
             x.AddConsumer<ReleaseStockConsumer>();
 
-            x.AddSagaStateMachine<ReserveStocksSaga, ReserveStocksStateMachineSaga>()
+            x.AddSagaStateMachine<ReserveStocksSaga, ReserveStocksSagaState>()
             .InMemoryRepository();
 
             x.UsingRabbitMq((context, config) =>
@@ -89,7 +89,7 @@ public static class DependencyInjection
                 config.ReceiveEndpoint("reserve-stocks-saga-queue", e =>
                 {
                     e.Durable = true;
-                    e.StateMachineSaga(new ReserveStocksSaga(), new InMemorySagaRepository<ReserveStocksStateMachineSaga>());
+                    e.StateMachineSaga(new ReserveStocksSaga(), new InMemorySagaRepository<ReserveStocksSagaState>());
                 });
 
                 config.ReceiveEndpoint("reserve-stock-queue", e =>
