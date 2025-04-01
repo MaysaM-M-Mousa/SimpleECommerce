@@ -19,7 +19,10 @@ internal class ProductRepository : IProductRepository
 
     public async Task<Product?> GetByIdAsync(int id)
     {
-        return await _dbContext.Products.FirstOrDefaultAsync(x => x.Id == id);
+        return await _dbContext
+            .Products
+            .Include(s => s.Reservations)
+            .FirstOrDefaultAsync(x => x.Id == id);
     }
 
     public async Task SaveChangesAsync()
