@@ -1,5 +1,6 @@
 ﻿using BuildingBlocks.Application.Database;
 using BuildingBlocks.Application.Inbox;
+using BuildingBlocks.Application.Outbox;
 using Inventory.Domain.Products;
 using Inventory.Infrastructure.BackgroundJobs;
 using Inventory.Infrastructure.Persistence;
@@ -21,6 +22,7 @@ public static class DependencyInjection
         services.AddScoped<IProductRepository, ProductRepository>();
         services.AddScoped<IInboxRepository, InboxRepository>();
         services.AddScoped<IDatabaseTransaction, DatabaseTransaction>();
+        services.AddScoped<IOutboxMessageRepository, OutboxMessageRepository>();
         services.AddSingleton<OutboxInterceptor>();
 
         services.AddDbContext<InventoryDbContext>((sp, options) =>

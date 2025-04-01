@@ -1,4 +1,5 @@
 ﻿using BuildingBlocks.Application.Inbox;
+using BuildingBlocks.Application.Outbox;
 using Inventory.Domain.Products;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,6 +13,8 @@ public class InventoryDbContext : DbContext
     public DbSet<Product> Products { get; set; }
 
     public DbSet<InboxMessage> InboxMessages { get; set; }
+
+    public DbSet<OutboxMessage> OutboxMessages { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
