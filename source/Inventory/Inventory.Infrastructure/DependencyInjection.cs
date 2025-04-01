@@ -34,7 +34,13 @@ public static class DependencyInjection
             options.AddInterceptors(sp.GetRequiredService<OutboxInterceptor>());
         });
 
+        services.AddQuartz();
 
+        return services;
+    }
+
+    private static IServiceCollection AddQuartz(this IServiceCollection services)
+    {
         services.AddQuartz(config =>
         {
             var jobKey = new JobKey(nameof(ProcessOutboxMessagesJob));
