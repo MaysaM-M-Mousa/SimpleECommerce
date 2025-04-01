@@ -25,7 +25,7 @@ public class ProductsController : ControllerBase
         return products.ToDto();
     }
 
-    [HttpGet("productId")]
+    [HttpGet("{productId}")]
     public async Task<ProductDto?> GetProductById(int productId)
     {
         var product = await _mediator.Send(new GetProductQuery(productId));
