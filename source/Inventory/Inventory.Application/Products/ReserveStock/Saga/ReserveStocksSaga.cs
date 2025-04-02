@@ -8,12 +8,14 @@ public class ReserveStocksSaga : MassTransitStateMachine<ReserveStocksSagaState>
 {
     // States
     public State Reservation { get; private set; }
+    public State Releasing { get; private set; }
     public State Completed { get; private set; }
     public State Failed { get; private set; }
 
     // Events
     public Event<OrderPlacedIntegrationEvent> OrderPlacedEvent { get; private set; }
     public Event<StockReservedIntegrationEvent> StockReservedEvent { get; private set; }
+    public Event<StockReleasedIntegrationEvent> StockReleasedEvent { get; private set; }
 
     public ReserveStocksSaga()
     {
@@ -21,6 +23,7 @@ public class ReserveStocksSaga : MassTransitStateMachine<ReserveStocksSagaState>
 
         Event(() => OrderPlacedEvent, x => x.CorrelateById(context => context.Message.OrderId));
         Event(() => StockReservedEvent, x => x.CorrelateById(context => context.Message.OrderId));
+        Event(() => StockReleasedEvent, x => x.CorrelateById(context => context.Message.OrderId));
 
         Initially(
           When(OrderPlacedEvent)
@@ -55,5 +58,22 @@ public class ReserveStocksSaga : MassTransitStateMachine<ReserveStocksSagaState>
                     await context.Publish(new ReserveStockRequest(nextProductToReserve.ProductId, nextProductToReserve.Quantity, context.Saga.OrderId));
                 }))
         );
+
+        During(Releasing,
+            When(StockReleasedEvent)
+            .Then(context =>
+            {
+                var releasedProduct = new ProductQuantity(context.Message.ProductId, context.Message.Quantity);
+                context.Saga.ReservationDetails.ReleasedProducts.Add(releasedProduct);
+                context.Saga.ReservationDetails.ReservedProducts.Remove(releasedProduct);
+            })
+            .IfElse(
+                x => !x.Saga.ReservationDetails.ReservedProducts.Any(), 
+                x => x.TransitionTo(Completed),
+                x => x.ThenAsync(async context =>
+                {
+                    var nextProductToRelease = context.Saga.ReservationDetails.ReservedProducts.First();
+                    await context.Publish(new ReleaseStockRequest(nextProductToRelease.ProductId, nextProductToRelease.Quantity, context.Saga.OrderId));
+                })));
     }
 }
