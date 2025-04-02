@@ -51,8 +51,8 @@ services:
     ports:
       - "5050:80"
     environment:
-      PGADMIN_DEFAULT_EMAIL: admin@pgadmin.com
-      PGADMIN_DEFAULT_PASSWORD: MyStrong!Passw0rd
+      PGADMIN_DEFAULT_EMAIL: pgadmin
+      PGADMIN_DEFAULT_PASSWORD: pgadmin
     depends_on:
       - postgres
     volumes:
