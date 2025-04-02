@@ -20,9 +20,12 @@ public class OrdersController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<Guid> CreateOrder([FromBody] CreateOrderRequest request)
+    public async Task<object> CreateOrder([FromBody] CreateOrderRequest request)
     {
-        return await _sender.Send(new CreateOrderCommand(request.Description, request.CustomerId));
+        return new
+        {
+            OrderId = await _sender.Send(new CreateOrderCommand(request.Description, request.CustomerId))
+        };
     }
 
     [HttpPost("{orderId}/place")]
