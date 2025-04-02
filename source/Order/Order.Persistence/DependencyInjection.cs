@@ -21,7 +21,7 @@ public static class DependencyInjection
 
         services.AddDbContext<OrdersDbContext>((sp, options)=>
         {
-            options.UseSqlServer(configuration.GetConnectionString("OrdersDbConnectionString"), builder =>
+            options.UseNpgsql(configuration.GetConnectionString("OrdersDbConnectionString"), builder =>
             {
                 builder.EnableRetryOnFailure(5, TimeSpan.FromSeconds(5), null);
             });

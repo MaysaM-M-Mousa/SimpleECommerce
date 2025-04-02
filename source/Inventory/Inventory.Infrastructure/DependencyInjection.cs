@@ -31,7 +31,7 @@ public static class DependencyInjection
 
         services.AddDbContext<InventoryDbContext>((sp, options) =>
         {
-            options.UseSqlServer(configuration.GetConnectionString("InventoryDbConnectionString"), builder =>
+            options.UseNpgsql(configuration.GetConnectionString("InventoryDbConnectionString"), builder =>
             {
                 builder.EnableRetryOnFailure(5, TimeSpan.FromSeconds(5), null);
             });
