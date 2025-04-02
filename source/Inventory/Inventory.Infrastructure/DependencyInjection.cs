@@ -10,6 +10,7 @@ using Inventory.Infrastructure.Persistence;
 using Inventory.Infrastructure.Persistence.Interceptors;
 using Inventory.Infrastructure.Persistence.Repositories;
 using MassTransit;
+using MassTransit.EntityFrameworkCoreIntegration;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -73,7 +74,12 @@ public static class DependencyInjection
             x.AddConsumer<ReleaseStockConsumer>();
 
             x.AddSagaStateMachine<ReserveStocksSaga, ReserveStocksSagaState>()
-            .InMemoryRepository();
+            .EntityFrameworkRepository(r =>
+            {
+                r.ConcurrencyMode = ConcurrencyMode.Pessimistic;
+                r.ExistingDbContext<InventoryDbContext>();
+                r.LockStatementProvider = new PostgresLockStatementProvider();
+            });
 
             x.UsingRabbitMq((context, config) =>
             {
@@ -89,7 +95,7 @@ public static class DependencyInjection
                 config.ReceiveEndpoint("reserve-stocks-saga-queue", e =>
                 {
                     e.Durable = true;
-                    e.StateMachineSaga(new ReserveStocksSaga(), new InMemorySagaRepository<ReserveStocksSagaState>());
+                    e.StateMachineSaga<ReserveStocksSagaState>(context);
                 });
 
                 config.ReceiveEndpoint("reserve-stock-queue", e =>
