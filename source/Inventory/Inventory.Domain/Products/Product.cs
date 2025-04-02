@@ -13,17 +13,17 @@ public class Product : AggregateRoot<int>
 
     public decimal Price { get; private set; }
 
-    private Dictionary<Guid, Reservation> _reservations = new();
+    private Dictionary<Guid, Reservation> _reservationsByOrderId =>
+                _reservations.ToDictionary(r => r.OrderId);
+
+    private List<Reservation> _reservations = new();
 
     public IReadOnlyList<Reservation> Reservations =>
-        _reservations
-        .Values
-        .ToList()
-        .AsReadOnly();
+        _reservations.AsReadOnly();
 
     private Product()
     {
-        // EF COre Only
+        // EF Core Only
     }
 
     private Product(int id, string name, string description, int quantity, decimal price) 
@@ -39,7 +39,7 @@ public class Product : AggregateRoot<int>
         => StockQuantity >= quantity;
 
     public int ReservedQuantity =>
-        _reservations.Sum(x => x.Value.Quantity);
+        _reservationsByOrderId.Sum(x => x.Value.Quantity);
 
     public int AvailableQuantity =>
         StockQuantity - ReservedQuantity;
@@ -51,12 +51,12 @@ public class Product : AggregateRoot<int>
             throw new Exception("No enough available stocks to reserve!");
         }
 
-        if (_reservations.ContainsKey(orderId))
+        if (_reservationsByOrderId.ContainsKey(orderId))
         {
             throw new Exception("Order already has a reservation!");
         }
 
-        _reservations.Add(orderId, Reservation.Create(Id, orderId, quantity));
+        _reservations.Add(Reservation.Create(Id, orderId, quantity));
 
         RaiseDomainEvent(new StockReservedDomainEvent(Id, quantity, orderId));
     }
@@ -68,7 +68,7 @@ public class Product : AggregateRoot<int>
             throw new Exception("Quantity must not be positive!");
         }
 
-        if (!_reservations.TryGetValue(orderId, out var orderReservation))
+        if (!_reservationsByOrderId.TryGetValue(orderId, out var orderReservation))
         {
             throw new Exception("Order has no reservation!");
         }
@@ -78,7 +78,7 @@ public class Product : AggregateRoot<int>
             throw new Exception("Released quantity does not match order reservation's quantity!");
         }
 
-        _reservations.Remove(orderId);
+        RemoveReservation(orderId);
 
         RaiseDomainEvent(new StockReleasedDomainEvent(Id, quantity, orderId));
     }
@@ -95,7 +95,7 @@ public class Product : AggregateRoot<int>
             throw new Exception("No enough stocks to deduct!");
         }
 
-        if (!_reservations.TryGetValue(orderId, out var orderReservation))
+        if (!_reservationsByOrderId.TryGetValue(orderId, out var orderReservation))
         {
             throw new Exception("Order has no reservation!");
         }
@@ -106,9 +106,15 @@ public class Product : AggregateRoot<int>
         }
 
         StockQuantity -= quantity;
-        _reservations.Remove(orderId);
+        RemoveReservation(orderId);
 
         RaiseDomainEvent(new StockDeductedDomainEvent(Id, quantity, orderId));
+    }
+
+    private void RemoveReservation(Guid orderId)
+    {
+        var orderReservation = _reservations.First(r => r.OrderId == orderId);
+        _reservations.Remove(orderReservation);
     }
 
     public static Product Create(int id, string name, string description, int quantity, decimal price)
