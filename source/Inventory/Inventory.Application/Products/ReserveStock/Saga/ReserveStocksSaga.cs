@@ -28,11 +28,11 @@ public class ReserveStocksSaga : MassTransitStateMachine<ReserveStocksSagaState>
                 x => x.Then(context =>
                 {
                     context.Saga.OrderId = context.Message.OrderId;
-                    context.Saga.ProductsToReserve = context.Message.Items.Select(i => new ProductQuantity(i.ProductId, i.Quantity)).ToList();
+                    context.Saga.ReservationDetails.ProductsToReserve = context.Message.Items.Select(i => new ProductQuantity(i.ProductId, i.Quantity)).ToList();
                 })
                 .ThenAsync(async context =>
                 {
-                    var nextProductToReserve = context.Saga.ProductsToReserve.First();
+                    var nextProductToReserve = context.Saga.ReservationDetails.ProductsToReserve.First();
                     await context.Publish(new ReserveStockRequest(nextProductToReserve.ProductId, nextProductToReserve.Quantity, context.Saga.OrderId));
                 })
                 .TransitionTo(Reservation),
@@ -44,14 +44,14 @@ public class ReserveStocksSaga : MassTransitStateMachine<ReserveStocksSagaState>
                 .Then(context =>
                 {
                     var reservedProduct = new ProductQuantity(context.Message.ProductId, context.Message.Quantity);
-                    context.Saga.ProductsToReserve.Remove(reservedProduct);
-                    context.Saga.ReservedProducts.Add(reservedProduct);
+                    context.Saga.ReservationDetails.ProductsToReserve.Remove(reservedProduct);
+                    context.Saga.ReservationDetails.ReservedProducts.Add(reservedProduct);
                 })
-                .IfElse(context => !context.Saga.ProductsToReserve.Any(),
+                .IfElse(context => !context.Saga.ReservationDetails.ProductsToReserve.Any(),
                 x => x.TransitionTo(Completed),
                 x => x.ThenAsync(async context =>
                 {
-                    var nextProductToReserve = context.Saga.ProductsToReserve.First();
+                    var nextProductToReserve = context.Saga.ReservationDetails.ProductsToReserve.First();
                     await context.Publish(new ReserveStockRequest(nextProductToReserve.ProductId, nextProductToReserve.Quantity, context.Saga.OrderId));
                 }))
         );

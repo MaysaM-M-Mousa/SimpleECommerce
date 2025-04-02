@@ -10,11 +10,17 @@ public class ReserveStocksSagaState : SagaStateMachineInstance
 
     public Guid OrderId { get; set; }
 
-    public List<ProductQuantity> ReservedProducts { get; set; } = new();
+    public ReservationDetails ReservationDetails { get; set; } = new();
 
-    public List<ProductQuantity> ProductsToReserve { get; set; } = new();
+}
 
-    public List<ProductQuantity> ProductsToRelease { get; set; } = new();
+public class ReservationDetails
+{
+    public List<ProductQuantity> ReservedProducts { get; set; } = [];
+
+    public List<ProductQuantity> ProductsToReserve { get; set; } = [];
+
+    public List<ProductQuantity> ProductsToRelease { get; set; } = [];
 }
 
 public record ProductQuantity(int ProductId, int Quantity);
