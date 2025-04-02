@@ -20,7 +20,7 @@ public class ReservationDetails
 
     public List<ProductQuantity> ProductsToReserve { get; set; } = [];
 
-    public List<ProductQuantity> ProductsToRelease { get; set; } = [];
+    public List<ProductQuantity> ReleasedProducts { get; set; } = [];
 }
 
 public record ProductQuantity(int ProductId, int Quantity);

@@ -203,7 +203,7 @@ namespace Inventory.Infrastructure.Migrations
                             b1.WithOwner()
                                 .HasForeignKey("ReserveStocksSagaStateCorrelationId");
 
-                            b1.OwnsMany("Inventory.Application.Products.ReserveStock.Saga.ProductQuantity", "ProductsToRelease", b2 =>
+                            b1.OwnsMany("Inventory.Application.Products.ReserveStock.Saga.ProductQuantity", "ProductsToReserve", b2 =>
                                 {
                                     b2.Property<Guid>("ReservationDetailsReserveStocksSagaStateCorrelationId")
                                         .HasColumnType("uuid");
@@ -226,7 +226,7 @@ namespace Inventory.Infrastructure.Migrations
                                         .HasForeignKey("ReservationDetailsReserveStocksSagaStateCorrelationId");
                                 });
 
-                            b1.OwnsMany("Inventory.Application.Products.ReserveStock.Saga.ProductQuantity", "ProductsToReserve", b2 =>
+                            b1.OwnsMany("Inventory.Application.Products.ReserveStock.Saga.ProductQuantity", "ReleasedProducts", b2 =>
                                 {
                                     b2.Property<Guid>("ReservationDetailsReserveStocksSagaStateCorrelationId")
                                         .HasColumnType("uuid");
@@ -272,9 +272,9 @@ namespace Inventory.Infrastructure.Migrations
                                         .HasForeignKey("ReservationDetailsReserveStocksSagaStateCorrelationId");
                                 });
 
-                            b1.Navigation("ProductsToRelease");
-
                             b1.Navigation("ProductsToReserve");
+
+                            b1.Navigation("ReleasedProducts");
 
                             b1.Navigation("ReservedProducts");
                         });

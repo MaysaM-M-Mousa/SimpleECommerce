@@ -21,7 +21,7 @@ internal class ReserveStocksSagaStateEntityConfiguration : IEntityTypeConfigurat
             d.ToJson();
             d.OwnsMany(x => x.ProductsToReserve);
             d.OwnsMany(x => x.ReservedProducts);
-            d.OwnsMany(x => x.ProductsToRelease);
+            d.OwnsMany(x => x.ReleasedProducts);
         });
     }
 }
