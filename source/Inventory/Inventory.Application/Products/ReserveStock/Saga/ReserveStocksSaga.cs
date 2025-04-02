@@ -30,12 +30,12 @@ public class ReserveStocksSaga : MassTransitStateMachine<ReserveStocksSagaState>
                     context.Saga.OrderId = context.Message.OrderId;
                     context.Saga.ReservationDetails.ProductsToReserve = context.Message.Items.Select(i => new ProductQuantity(i.ProductId, i.Quantity)).ToList();
                 })
+                .TransitionTo(Reservation)
                 .ThenAsync(async context =>
                 {
                     var nextProductToReserve = context.Saga.ReservationDetails.ProductsToReserve.First();
                     await context.Publish(new ReserveStockRequest(nextProductToReserve.ProductId, nextProductToReserve.Quantity, context.Saga.OrderId));
-                })
-                .TransitionTo(Reservation),
+                }),
                 x => x.TransitionTo(Failed))
         );
 
@@ -44,8 +44,8 @@ public class ReserveStocksSaga : MassTransitStateMachine<ReserveStocksSagaState>
                 .Then(context =>
                 {
                     var reservedProduct = new ProductQuantity(context.Message.ProductId, context.Message.Quantity);
-                    context.Saga.ReservationDetails.ProductsToReserve.Remove(reservedProduct);
                     context.Saga.ReservationDetails.ReservedProducts.Add(reservedProduct);
+                    context.Saga.ReservationDetails.ProductsToReserve.Remove(reservedProduct);
                 })
                 .IfElse(context => !context.Saga.ReservationDetails.ProductsToReserve.Any(),
                 x => x.TransitionTo(Completed),
