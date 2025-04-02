@@ -27,19 +27,20 @@ public class ReserveStocksSaga : MassTransitStateMachine<ReserveStocksSagaState>
 
         Initially(
           When(OrderPlacedEvent)
-            .IfElse(context => context.Message.Items.Any(),
-                x => x.Then(context =>
-                {
-                    context.Saga.OrderId = context.Message.OrderId;
-                    context.Saga.ReservationDetails.ProductsToReserve = context.Message.Items.Select(i => new ProductQuantity(i.ProductId, i.Quantity)).ToList();
-                })
-                .TransitionTo(Reservation)
-                .ThenAsync(async context =>
-                {
-                    var nextProductToReserve = context.Saga.ReservationDetails.ProductsToReserve.First();
-                    await context.Publish(new ReserveStockRequest(nextProductToReserve.ProductId, nextProductToReserve.Quantity, context.Saga.OrderId));
-                }),
-                x => x.TransitionTo(Failed))
+            .IfElse(
+              context => context.Message.Items.Any(),
+              context => context.Then(context =>
+              {
+                  context.Saga.OrderId = context.Message.OrderId;
+                  context.Saga.ReservationDetails.ProductsToReserve = context.Message.Items.Select(i => new ProductQuantity(i.ProductId, i.Quantity)).ToList();
+              })
+              .TransitionTo(Reservation)
+              .ThenAsync(async context =>
+              {
+                  var nextProductToReserve = context.Saga.ReservationDetails.ProductsToReserve.First();
+                  await context.Publish(new ReserveStockRequest(nextProductToReserve.ProductId, nextProductToReserve.Quantity, context.Saga.OrderId));
+              }),
+              context => context.TransitionTo(Failed))
         );
 
         During(Reservation,
@@ -50,9 +51,10 @@ public class ReserveStocksSaga : MassTransitStateMachine<ReserveStocksSagaState>
                     context.Saga.ReservationDetails.ReservedProducts.Add(reservedProduct);
                     context.Saga.ReservationDetails.ProductsToReserve.Remove(reservedProduct);
                 })
-                .IfElse(context => !context.Saga.ReservationDetails.ProductsToReserve.Any(),
-                x => x.TransitionTo(Completed),
-                x => x.ThenAsync(async context =>
+                .IfElse(
+                context => !context.Saga.ReservationDetails.ProductsToReserve.Any(),
+                context => context.TransitionTo(Completed),
+                context => context.ThenAsync(async context =>
                 {
                     var nextProductToReserve = context.Saga.ReservationDetails.ProductsToReserve.First();
                     await context.Publish(new ReserveStockRequest(nextProductToReserve.ProductId, nextProductToReserve.Quantity, context.Saga.OrderId));
@@ -68,9 +70,9 @@ public class ReserveStocksSaga : MassTransitStateMachine<ReserveStocksSagaState>
                 context.Saga.ReservationDetails.ReservedProducts.Remove(releasedProduct);
             })
             .IfElse(
-                x => !x.Saga.ReservationDetails.ReservedProducts.Any(), 
-                x => x.TransitionTo(Completed),
-                x => x.ThenAsync(async context =>
+                context => !context.Saga.ReservationDetails.ReservedProducts.Any(), 
+                context => context.TransitionTo(Completed),
+                context => context.ThenAsync(async context =>
                 {
                     var nextProductToRelease = context.Saga.ReservationDetails.ReservedProducts.First();
                     await context.Publish(new ReleaseStockRequest(nextProductToRelease.ProductId, nextProductToRelease.Quantity, context.Saga.OrderId));
