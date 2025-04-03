@@ -33,7 +33,7 @@ public class ReserveStocksSaga : MassTransitStateMachine<ReserveStocksSagaState>
             x => x.ReservationTimeoutToken, 
             x =>
             {
-                x.Delay = TimeSpan.FromMinutes(1);
+                x.Delay = TimeSpan.FromMinutes(10);
                 x.Received = r => r.CorrelateById(m => m.Message.OrderId);
             });
 
