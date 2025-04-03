@@ -15,8 +15,6 @@ public class ReserveStocksSaga : MassTransitStateMachine<ReserveStocksSagaState>
     public Event<OrderPlacedIntegrationEvent> OrderPlacedEvent { get; private set; }
     public Event<StockReservedIntegrationEvent> StockReservedEvent { get; private set; }
     public Event<StockReleasedIntegrationEvent> StockReleasedEvent { get; private set; }
-    public Event<StocksReservationCompletedIntegrationEvent> StocksReservationCompletedEvent { get; private set; }
-    public Event<StocksReservationFailedIntegrationEvent> StocksReservationFailedEvent { get; private set; }
     public Schedule<ReserveStocksSagaState, ReservationTimeoutExpiredIntegrationEvent> ReservationTimeoutExpiredEvent { get; private set; }
 
     public ReserveStocksSaga()
@@ -26,8 +24,6 @@ public class ReserveStocksSaga : MassTransitStateMachine<ReserveStocksSagaState>
         Event(() => OrderPlacedEvent, x => x.CorrelateById(context => context.Message.OrderId));
         Event(() => StockReservedEvent, x => x.CorrelateById(context => context.Message.OrderId));
         Event(() => StockReleasedEvent, x => x.CorrelateById(context => context.Message.OrderId));
-        Event(() => StocksReservationCompletedEvent, x => x.CorrelateById(context => context.Message.OrderId));
-        Event(() => StocksReservationFailedEvent, x => x.CorrelateById(context => context.Message.OrderId));
         Schedule(
             () => ReservationTimeoutExpiredEvent, 
             x => x.ReservationTimeoutToken, 
@@ -133,13 +129,6 @@ public class ReserveStocksSaga : MassTransitStateMachine<ReserveStocksSagaState>
                     var nextProductToRelease = context.Saga.ReservationDetails.ReservedProducts.First();
                     await context.Publish(new ReleaseStockRequest(nextProductToRelease.ProductId, nextProductToRelease.Quantity, context.Saga.OrderId));
                 })));
-
-        During(Failed,
-            Ignore(StocksReservationFailedEvent));
-
-        During(Final,
-            Ignore(StocksReservationCompletedEvent),
-            Ignore(StocksReservationFailedEvent));
     }
 }
 
