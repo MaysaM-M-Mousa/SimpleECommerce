@@ -79,3 +79,13 @@ public class ReserveStocksSaga : MassTransitStateMachine<ReserveStocksSagaState>
                 })));
     }
 }
+
+/*
+ TODO:
+    1. Scheduled message for 
+    2. Enhancements
+    3. Fire completion events
+    4. Outbox pattern for transactional messaging
+    5. Idempotency
+    6. Retries
+ */
