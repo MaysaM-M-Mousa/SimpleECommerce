@@ -81,6 +81,8 @@ public static class DependencyInjection
                 r.LockStatementProvider = new PostgresLockStatementProvider();
             });
 
+            x.AddDelayedMessageScheduler();
+
             x.UsingRabbitMq((context, config) =>
             {
                 config.Host(configuration["RabbitMq:ConnectionString"], h =>
@@ -88,6 +90,8 @@ public static class DependencyInjection
                     h.Username(configuration["RabbitMq:Username"]);
                     h.Password(configuration["RabbitMq:Password"]);
                 });
+
+                config.UseDelayedMessageScheduler();
 
                 //config.UseConsumeFilter(typeof(IdempotentIntegrationEventFilter<>), context);
                 //config.ConfigureEndpoints(context);
