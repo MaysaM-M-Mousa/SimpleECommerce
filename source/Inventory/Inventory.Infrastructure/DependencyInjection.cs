@@ -81,6 +81,13 @@ public static class DependencyInjection
                 r.LockStatementProvider = new PostgresLockStatementProvider();
             });
 
+            x.AddEntityFrameworkOutbox<InventoryDbContext>(configurator =>
+            {
+                configurator.UsePostgres();
+                configurator.UseBusOutbox();
+                configurator.IsolationLevel = System.Data.IsolationLevel.ReadCommitted;
+            });
+
             x.AddDelayedMessageScheduler();
 
             x.UsingRabbitMq((context, config) =>

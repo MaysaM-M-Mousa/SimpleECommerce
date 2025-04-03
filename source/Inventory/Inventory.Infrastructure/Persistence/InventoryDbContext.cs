@@ -2,6 +2,7 @@
 using BuildingBlocks.Application.Outbox;
 using Inventory.Application.Products.ReserveStock.Saga;
 using Inventory.Domain.Products;
+using MassTransit;
 using Microsoft.EntityFrameworkCore;
 
 namespace Inventory.Infrastructure.Persistence;
@@ -22,5 +23,10 @@ public class InventoryDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(InventoryDbContext).Assembly);
+
+        // MassTransit outbox & inbox tables
+        modelBuilder.AddInboxStateEntity(opts => opts.ToTable("MassTransit_InboxState"));
+        modelBuilder.AddOutboxStateEntity(opts => opts.ToTable("MassTransit_OutboxState"));
+        modelBuilder.AddOutboxMessageEntity(opts => opts.ToTable("MassTransit_OutboxMessage"));
     }
 }
