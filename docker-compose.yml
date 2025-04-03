@@ -51,15 +51,15 @@ services:
     ports:
       - "5050:80"
     environment:
-      PGADMIN_DEFAULT_EMAIL: pgadmin
-      PGADMIN_DEFAULT_PASSWORD: pgadmin
+      PGADMIN_DEFAULT_EMAIL: admin@pgadmin.com
+      PGADMIN_DEFAULT_PASSWORD: MyStrong!Passw0rd
     depends_on:
       - postgres
     volumes:
       - pgadmin_data:/var/lib/pgadmin
 
   rabbitmq:
-    image: rabbitmq:3-management
+    image: rabbitmq:3.13.7-management
     container_name: rabbitmq
     restart: always
     ports:
@@ -70,6 +70,13 @@ services:
       RABBITMQ_DEFAULT_PASS: guest
     volumes:
       - rabbitmq_data:/data
+    command: >
+      /bin/bash -c 
+      "apt-get update && apt-get install -y curl &&
+      curl -LO https://github.com/rabbitmq/rabbitmq-delayed-message-exchange/releases/download/v3.13.0/rabbitmq_delayed_message_exchange-3.13.0.ez &&
+      mv rabbitmq_delayed_message_exchange-3.13.0.ez /plugins/ &&
+      rabbitmq-plugins enable --offline rabbitmq_delayed_message_exchange && 
+      rabbitmq-server"
 
 volumes:
   postgres_data:
