@@ -10,6 +10,8 @@ public class ReserveStocksSagaState : SagaStateMachineInstance
 
     public Guid OrderId { get; set; }
 
+    public Guid? ReservationTimeoutToken { get; set; }
+
     public ReservationDetails ReservationDetails { get; set; } = new();
 
 }
