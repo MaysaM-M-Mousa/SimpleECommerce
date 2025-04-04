@@ -56,4 +56,18 @@ public class PlaceOrderTests
         // Assert
         act.Should().Throw<InvalidOperationException>().WithMessage("Can't place a cancelled order!");
     }
+
+    [Fact]
+    public void Placing_EmptyOrder_Fails()
+    {
+        // Arrange
+        var order = Domain.Orders.Order.Create("Order Description", Guid.NewGuid());
+        order.ClearDomainEvents();
+
+        // Act
+        var act = () => order.PlaceOrder();
+
+        // Assert
+        act.Should().Throw<InvalidOperationException>().WithMessage("Can't place an empty order!");
+    }
 }

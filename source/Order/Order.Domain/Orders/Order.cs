@@ -79,6 +79,11 @@ public class Order : AggregateRoot<Guid>
             throw new InvalidOperationException("Can't place a cancelled order!");
         }
 
+        if (_lineItems.Count == 0)
+        {
+            throw new InvalidOperationException("Can't place an empty order!");
+        }
+
         Status = OrderStatus.Placed;
 
         RaiseDomainEvent(new OrderPlacedDomainEvent(Id, CustomerId, TotalAmount, LineItems.Select(li => new Item(li.ProductId, li.Quantity)).ToList()));
