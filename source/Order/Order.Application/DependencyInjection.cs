@@ -1,4 +1,5 @@
-﻿using MassTransit;
+﻿using BuildingBlocks.IntegrationEvent;
+using MassTransit;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -27,6 +28,8 @@ public static class DependencyInjection
                     h.Username(configuration["RabbitMq:Username"]);
                     h.Password(configuration["RabbitMq:Password"]);
                 });
+
+                config.Publish<IntegrationEvent>(s => s.Exclude = true);
 
                 config.ConfigureEndpoints(context);
             });

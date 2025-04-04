@@ -1,6 +1,7 @@
 ﻿using BuildingBlocks.Application.Database;
 using BuildingBlocks.Application.Inbox;
 using BuildingBlocks.Application.Outbox;
+using BuildingBlocks.IntegrationEvent;
 using Inventory.Application.Products.ReleaseStock;
 using Inventory.Application.Products.ReserveStock;
 using Inventory.Application.Products.ReserveStock.Saga;
@@ -102,6 +103,8 @@ public static class DependencyInjection
 
                 //config.UseConsumeFilter(typeof(IdempotentIntegrationEventFilter<>), context);
                 //config.ConfigureEndpoints(context);
+
+                config.Publish<IntegrationEvent>(s => s.Exclude = true);
 
                 config.ReceiveEndpoint("reserve-stocks-saga-queue", e =>
                 {
