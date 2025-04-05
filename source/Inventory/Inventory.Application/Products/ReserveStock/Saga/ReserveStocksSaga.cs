@@ -138,7 +138,8 @@ public class ReserveStocksSaga : MassTransitStateMachine<ReserveStocksSagaState>
     2. Enhancements                                 -- done
     3. Fire completion events                       -- done
     4. Outbox pattern for transactional messaging   -- done
-    5. Idempotency
+    5. Idempotency                                  -- done
     6. Retries
     7. Concurrency
+    Visit this: https://www.youtube.com/watch?v=3TjGnmLno_A
  */

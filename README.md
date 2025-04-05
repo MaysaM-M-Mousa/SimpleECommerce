@@ -44,7 +44,7 @@ The system consists of two containerized services that expose relevant ports for
 * **Inventory Service**
   * Swagger UI: https://localhost:5000/swagger/index.html
 * **Order Service**
-  * Order Swagger UI: https://localhost:5003/swagger/index.html
+  * Swagger UI: https://localhost:5003/swagger/index.html
 
 ### Database
 * **PostgreSQL**: The primary database for both services, with persistent volume storage to ensure data durability.
@@ -59,7 +59,7 @@ The system consists of two containerized services that expose relevant ports for
 ### Message Broker
 * **RabbitMQ**: Acts as the message broker for event-driven communication between services.
   * **Management UI**: http://localhost:15672/
-  * Login **Credentials**
+  * **Login Credentials**
     * **Username**: `guest`
     * **Password**: `guest`
 
