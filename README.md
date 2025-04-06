@@ -12,7 +12,30 @@ When an order is placed in the **Order service**, it triggers an integration eve
 * **RabbitMQ** - as the message broker.
 * **MassTransit** - for service bus and message handling.
 
+# Getting Started
+To run the services locally using Docker Compose:
+```bash
+docker-compose up --build
+```
+### This command will:
+* Build and start the Order and Inventory services.
+* Spin up the required dependencies: SQL Server and RabbitMQ.
 
+### For monitoring and usage:
+* **Inventory Service**
+  * Swagger UI: https://localhost:5000/swagger/index.html
+* **Order Service**
+  * Swagger UI: https://localhost:5003/swagger/index.html
+* **RabbitMQ Management UI**: http://localhost:15672/
+  * **Login Credentials**
+    * **Username**: `guest`
+    * **Password**: `guest`
+* You can use **Microsoft SQL Server Management Studio** to connect to sql server container through your local machine
+  * **Login Credentials**
+    * **Server name**: `tcp:localhost,1433` 
+    * **Login**: `sa`
+    * **Password**: `MyStrong!Passw0rd`
+  
 # Transactional Outbox Pattern
 A reliability pattern that ensures atomic persistence of domain changes and event publication. This pattern prevents message loss and duplication by writing both domain data and event messages within the same database transaction.
 
